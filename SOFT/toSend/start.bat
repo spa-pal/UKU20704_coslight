@@ -1,0 +1,1 @@
+java -cp ukuApplet.jar uku_control.UKU_Applet_SNMP 192.168.1.251 >log.txt

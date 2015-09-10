@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config>
+    <connection interval="2000" timeoutMillis="3000"/>
+    <voltage name="Напряжение нагрузки, В (Uн), Основной экран" oid="1.3.6.1.4.1.33183.14.3.1.0" type="INTEGER"/>
+    <ampers name="Ток нагрузки, А (Iн), Основной экран" oid="1.3.6.1.4.1.33183.14.3.2.0" type="INTEGER"/>
+    <location name="Расположение" oid="1.3.6.1.4.1.33183.14.1.3.0" type="OCTET_STRING"/>
+    <model name="Модель" oid="1.3.6.1.4.1.33183.14.1.11.0" type="OCTET_STRING"/>
+    <serialNumber name="Модель" oid="1.3.6.1.4.1.33183.14.1.2.0" type="INTEGER"/>
+
+    <alarm name="Первичная сеть" oid="1.3.6.1.4.1.33183.14.2.3.0" type="INTEGER" mask="01"/>
+    <alarm name="Блоки питания" oid="1.3.6.1.4.1.33183.14.4.1.2" type="INTEGER" mask="1E">
+        <index name="psu_index" oid="1.3.6.1.4.1.33183.14.1.5.0" type="INTEGER"/>
+    </alarm>
+    <alarm name="Аккумуляторные батареи" oid="1.3.6.1.4.1.33183.14.5.1.7" type="INTEGER" mask="01">
+        <index name="batteries_index" oid="1.3.6.1.4.1.33183.14.1.4.0" type="INTEGER"/>
+    </alarm>
+
+
+    <view tableCaption="Параметры нагрузки" tableType="TWO_COLUMNS">
+        <parameter name="Напряжение нагрузки, В (Uн)" oid="1.3.6.1.4.1.33183.14.3.1.0" type="INTEGER"/>
+        <parameter name="Ток нагрузки, А (Iн)" oid="1.3.6.1.4.1.33183.14.3.2.0" type="INTEGER" multiplier="0.1"/>
+    </view>
+    <view tableCaption="Параметры сети" tableType="TWO_COLUMNS">
+        <parameter name="Напряжение сети, В (Uс)" oid="1.3.6.1.4.1.33183.14.2.1.0" type="INTEGER"/>
+        <parameter name="Частота сети, Гц (F)" oid="1.3.6.1.4.1.33183.14.2.2.0" type="INTEGER"/>
+        <parameter name="Состояние сети" oid="1.3.6.1.4.1.33183.14.2.3.0" type="STATUS">
+            <status mask="0">Норма</status>
+            <status mask="1" isAlarm="true">Авария</status>
+        </parameter>
+    </view>
+
+    <view tableCaption="Блоки питания" tableType="MULTI_COLUMNS">
+        <column weight="10"/>
+        <column weight="70"/>
+        <column weight="30"/>
+        <column weight="30"/>
+        <column weight="30"/>
+        <parameter name="@psu_table_size" oid="1.3.6.1.4.1.33183.14.1.5.0" type="INTEGER"/>
+        <indexed name="№" oid="1.3.6.1.4.1.33183.14.4.1.1" type="INTEGER"/>
+        <indexed name="Состояние" oid="1.3.6.1.4.1.33183.14.4.1.2" type="STATUS">
+            <status mask="0">Нет статуса</status>
+            <status mask="1">Активен</status>
+            <status mask="2" isAlarm="true">Перегрев</status>
+            <status mask="4" isAlarm="true">Занижено Uвых</status>
+            <status mask="8" isAlarm="true">Завышено Uвых</status>
+            <status mask="16" isAlarm="true">Разрыв связи</status>
+            <status mask="32" isAlarm="true">Заблокирован</status>
+            <status mask="64">В резерве</status>
+        </indexed>
+        <indexed name="Uвых, В" oid="1.3.6.1.4.1.33183.14.4.1.3" type="INTEGER"/>
+        <indexed name="I, А" oid="1.3.6.1.4.1.33183.14.4.1.4" type="INTEGER"/>
+        <indexed name="T, °C" oid="1.3.6.1.4.1.33183.14.4.1.5" type="INTEGER"/>
+    </view>
+
+    <view tableCaption="Блок батарей" tableType="MULTI_COLUMNS_HORIZONTAL">
+        <column weight="200"/>
+        <column weight="30"/>
+        <column weight="30"/>
+        <parameter name="@batteres_size" oid="1.3.6.1.4.1.33183.14.1.4.0" type="INTEGER"/>
+        <indexed name="Номер батареи" oid="1.3.6.1.4.1.33183.14.5.1.1" type="INTEGER"/>
+        <indexed name="Напряжение батареи, В (Uб)" oid="1.3.6.1.4.1.33183.14.5.1.2" type="INTEGER"/>
+        <indexed name="Ток батареи, А (Iб)" oid="1.3.6.1.4.1.33183.14.5.1.3" type="INTEGER"/>
+        <indexed name="Температура батареи, °C (Тб)" oid="1.3.6.1.4.1.33183.14.5.1.4" type="INTEGER"/>
+        <indexed name="Емкость батареи, А*ч (Сб)" oid="1.3.6.1.4.1.33183.14.5.1.5" type="INTEGER"/>
+        <indexed name="Заряд батареи, % (Qб)" oid="1.3.6.1.4.1.33183.14.5.1.6" type="INTEGER"/>
+        <indexed name="Состояние" oid="1.3.6.1.4.1.33183.14.5.1.7" type="STATUS">
+            <status mask="0">Разряд</status>
+            <status mask="1" isAlarm="true">Авария</status>
+            <status mask="2">Заряд</status>
+        </indexed>
+    </view>
+    <view tableType="TWO_COLUMNS">
+        <parameter name="Спецфункции" oid="1.3.6.1.4.1.33183.14.6.2.0" type="STATUS">
+            <status mask="10">ВЗ</status>
+            <status mask="1">КЕБ №1</status>
+            <status mask="2">КЕБ №2</status>
+            <status mask="0">Выкл</status>
+        </parameter>
+    </view>
+
+
+    <settings>
+        <parameter name="Расположение" oid="1.3.6.1.4.1.33183.14.1.3.0" type="OCTET_STRING"/>
+        <parameter name="Модель" oid="1.3.6.1.4.1.33183.14.1.11.0" type="OCTET_STRING"/>
+    </settings>
+
+</config>
