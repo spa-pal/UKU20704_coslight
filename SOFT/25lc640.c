@@ -261,7 +261,7 @@ return temp;
 
 //-----------------------------------------------
 //Запись слова in по адресу ADR
-char lc640_write_int(short ADR,short in)
+char lc640_write_int(int ADR,short in)
 {
 char temp; 
 while(lc640_rdsr()&0x01)

@@ -773,7 +773,7 @@ extern signed short KunetC;
 
 extern signed short MAIN_IST;
 extern signed short UMAX;
-extern signed short UB0;
+extern signed short UBMAX;
 extern signed short UB20;
 extern signed short TMAX;
 extern signed short TSIGN;

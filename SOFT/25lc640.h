@@ -16,6 +16,6 @@ long lc640_read_long(int ADR);
 void lc640_read_long_ptr(int ADR,char* out_ptr);
 void lc640_read_str(int ADR, char* ram_ptr, char num);
 char lc640_write(int ADR,char in);
-char lc640_write_int(short ADR,short in);
+char lc640_write_int(int ADR,short in);
 char lc640_write_long(int ADR,long in);
 char lc640_write_long_ptr(int ADR,char* in);

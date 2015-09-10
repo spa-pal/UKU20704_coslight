@@ -4594,14 +4594,14 @@ else
 
 	mat_temper=t[0];
 			
-	if(mat_temper<0)temp_SL=UB0; 
+	if(mat_temper<0)temp_SL=UBMAX; 
 	else 
 		{
 		if(mat_temper>40)mat_temper=40; 
-		temp_SL=(UB20-UB0)*10;
+		temp_SL=(UB20-UBMAX)*10;
 		temp_SL*=mat_temper;
 		temp_SL/=200;
-		temp_SL+=UB0;
+		temp_SL+=UBMAX;
 		}
 	if(spc_stat==spcVZ)
 		{
@@ -4657,7 +4657,7 @@ if(mess_find_unvol(MESS2UNECC_HNDL))
 
 else if(b1Hz_unh)
 	{
-	
+	/*
 	if((BAT_IS_ON[0]!=bisON) && (BAT_IS_ON[1]!=bisON))
 		{
 		
@@ -4683,14 +4683,14 @@ else if(b1Hz_unh)
 			else mat_temper=t[1];
 			
 		
-			if(mat_temper<0)temp_SL=UB0; 
+			if(mat_temper<0)temp_SL=UBMAX; 
 			else 
 				{
 				if(mat_temper>40)mat_temper=40; 
-				temp_SL=(UB20-UB0)*10;
+				temp_SL=(UB20-UBMAX)*10;
 				temp_SL*=mat_temper;
 				temp_SL/=200;
-				temp_SL+=UB0;
+				temp_SL+=UBMAX;
 				}
 			if(spc_stat==spcVZ)
 				{
@@ -4709,18 +4709,37 @@ else if(b1Hz_unh)
 				{
 				u_necc=UVZ;
 				}
-			if(u_necc>=UB0) u_necc=UB0;
+			if(u_necc>=UBMAX) u_necc=UBMAX;
 			if(u_necc>=UB20) u_necc=UB20;
 			if(lakb[0]._battCommState)
 				{
 				if(u_necc>=500) u_necc=500;
 				}
 			}
-		}  
+		}*/ 
+		
+			u_necc=U0B;
+					
+			u_necc=bat[0]._Ub+5;
+
+			
+			if(spc_stat==spcVZ)
+				{
+				u_necc=UVZ;
+				}
+			if(u_necc>=UBMAX) u_necc=UBMAX;
+			if(u_necc>=UB20) u_necc=UB20;
+			if(lakb[0]._battCommState)
+				{
+				if(u_necc>=500) u_necc=500;
+				}
+					 
 	}
 
 //u_necc=2356;
-#endif//gran(&u_necc,400,UMAX);
+#endif
+
+gran(&u_necc,400,UMAX);
 
 temp_L=(signed long) u_necc;
 temp_L*=98L;
@@ -4956,7 +4975,7 @@ else if((b1Hz_ch)&&((!bIBAT_SMKLBR)||(bps[8]._cnt>40)))
 		
 	else if(load_U<u_necc)
 		{
-		if(load_U<(u_necc-(UB0-UB20)))
+		if(load_U<(u_necc-(UBMAX-UB20)))
 			{
 			if(Ibmax<0)
 				{
@@ -4973,7 +4992,7 @@ else if((b1Hz_ch)&&((!bIBAT_SMKLBR)||(bps[8]._cnt>40)))
 				cntrl_stat_new++;
 				}					
 			}
-		else if(load_U<(u_necc-((UB0-UB20)/4)))
+		else if(load_U<(u_necc-((UBMAX-UB20)/4)))
 			{
 			if(Ibmax<(IZMAX_*5))
 				{
@@ -4995,12 +5014,12 @@ else if((b1Hz_ch)&&((!bIBAT_SMKLBR)||(bps[8]._cnt>40)))
 		}	
 	else if((load_U>u_necc)/*&&(!cntrl_blok)*/)
 		{
-		if(load_U>(u_necc+(UB0-UB20)))
+		if(load_U>(u_necc+(UBMAX-UB20)))
 			{
                if(cntrl_stat_blok_cnt)cntrl_stat_new--;
 			else	cntrl_stat_new-=10;
 			}
-		else if(load_U>(u_necc+((UB0-UB20)/4)))
+		else if(load_U>(u_necc+((UBMAX-UB20)/4)))
 			{
                if(cntrl_stat_blok_cnt)cntrl_stat_new--;
 			else cntrl_stat_new-=2;

@@ -50,7 +50,7 @@ Ktext[2]=lc640_read_int(KT_EXT2);
 	
 MAIN_IST=lc640_read_int(EE_MAIN_IST);
 UMAX=lc640_read_int(EE_UMAX);
-UB0=lc640_read_int(EE_UB0);
+UBMAX=lc640_read_int(EE_UB0);
 UB20=lc640_read_int(EE_UB20);
 TMAX=lc640_read_int(EE_TMAX);
 TSIGN=lc640_read_int(EE_TSIGN);
